@@ -1,5 +1,5 @@
 import datetime
-from django.db import models
+from django.db import models, connection
 from django.db.models import IntegerField
 
 
@@ -10,6 +10,11 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'категория'
         verbose_name_plural = 'категории'
+
+    @classmethod
+    def truncate_table_restart_id(cls):
+        with connection.cursor() as cursor:
+            cursor.execute(f'TRUNCATE TABLE {cls._meta.db_table} RESTART IDENTITY CASCADE')
 
     def __str__(self):
         return self.name
@@ -23,7 +28,6 @@ class Product(models.Model):
     price = IntegerField(verbose_name='Цена ')
     created_at = models.DateField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateField(auto_now=True, verbose_name='Дата последнего изменения')
-    manufactured_at = models.DateField(verbose_name='Дата производства продукта', default=datetime.date.today)
 
     class Meta:
         verbose_name = 'пробукт'

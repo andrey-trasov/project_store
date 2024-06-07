@@ -1,4 +1,3 @@
-import datetime
 from django.db import models, connection
 from django.db.models import IntegerField
 

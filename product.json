@@ -63,5 +63,18 @@
       "created_at": "2024-06-06",
       "updated_at": "2024-06-06"
     }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+      "name": "Плитка",
+      "description": "Плитка керамическая для ванны",
+      "image": "",
+      "category": 3,
+      "price": 300,
+      "created_at": "2024-06-06",
+      "updated_at": "2024-06-06"
+    }
   }
 ]

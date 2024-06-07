@@ -1,4 +1,6 @@
 from django.core.management import BaseCommand
+from psycopg2._psycopg import IntegrityError
+
 from catalog.models import Category, Product
 import json
 
@@ -16,7 +18,6 @@ class Command(BaseCommand):
             return json.load(json_file)
 
     def handle(self, *args, **options):
-
         # Удалите все продукты
         Category.objects.all().delete()
         # Сброс индефикатора Category

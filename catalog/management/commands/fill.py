@@ -53,9 +53,11 @@ class Command(BaseCommand):
         product_for_create = []
         for product_item in product_list:
             product_for_create.append(
-                Product.objects.create(**product_item)
+                Product(**product_item)
             )
 
         # Создаем объекты в базе с помощью метода bulk_create()
         Category.objects.bulk_create(category_for_create)
         Product.objects.bulk_create(product_for_create)
+
+#                Product.objects.create(**product_item)

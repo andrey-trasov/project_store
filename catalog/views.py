@@ -10,20 +10,16 @@ class ProductListView(ListView):
     model = Product
 
     def get_context_data(self, *args, **kwargs):
-        context_data = super().get_context_data(*args, **kwargs)
-        # products = Product.objects.all()
-        products = self.get_queryset(*args, **kwargs)
-
-        for product in products:
-            versions = Version.objects.filter(product=product)
+        context = super().get_context_data(*args, **kwargs)
+        for product in context['object_list']:
+            versions = Version.objects.filter(product = product)
             active_versions = versions.filter(is_active=True)
             if active_versions:
                 product.active_version = active_versions.last().version_name
             else:
                 product.active_version = 'Нет активной версии'
+        return context
 
-        context_data['object_list'] = products
-        return context_data
 
 class ProductDetailView(DetailView):
     model = Product
@@ -61,10 +57,3 @@ class ProductUpdateView(UpdateView):
             return super().form_valid(form)
         else:
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     for obj in context['object_list']:
-    #         obj.active_version = Product.objects.filter(
-    #             pk=obj.pk).first().versions.filter(is_active=True).first()
-    #     return context

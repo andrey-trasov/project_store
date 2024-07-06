@@ -49,7 +49,7 @@ class BlogDeleteView(DeleteView):
 class BlogDetailView(DetailView):
     model = Blog
 
-    def get_object(self, queryset=None):
+    def get_object(self, queryset=None):     #счетчик просмоитров
         self.object = super().get_object(queryset)    # возвращает объект с перемеными
         self.object.views += 1    # увеличивает счетчик просмотров
         self.object.save()    # сохраняет изменения

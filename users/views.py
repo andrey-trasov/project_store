@@ -38,12 +38,19 @@ def email_verification(request, token):
     return redirect(reverse('users:login'))
 
 def passwords():
+    """
+    Генерирует случайный пароль из набора символов
+    """
     symbols = string.ascii_lowercase + string.ascii_uppercase + string.digits
     num = random.randint(8, 15)
     password = ''.join(random.sample(symbols, num))
     return password
 
 def reset_password(request):
+    """
+    Страница для сброса пароля.
+    При получении POST-запроса с email, генерирует новый пароль, сохраняет его в базе, и отправляет письмо с новым паролем.
+    """
     if request.method == 'POST':
         email = request.POST.get('email')
         user = get_object_or_404(User, email=email)    #eсли имейл зарегистрирован

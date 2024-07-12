@@ -18,7 +18,9 @@
                     <p>Активная версия: {{ product.active_version }}</p>
 
                     <a class="btn btn-primary" href="{% url 'catalog:product_detail' product.pk %}" role="button">Просмотр</a>
+                    {% if user.is_authenticated %}
                     <a class="btn btn-primary" href="{% url 'catalog:product_update' product.pk %}" role="button">Редактировать</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

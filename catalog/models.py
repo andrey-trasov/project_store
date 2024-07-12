@@ -1,5 +1,6 @@
 from django.db import models, connection
 from django.db.models import IntegerField
+from users.models import User
 
 
 class Category(models.Model):
@@ -27,6 +28,7 @@ class Product(models.Model):
     price = IntegerField(verbose_name='Цена ')
     created_at = models.DateField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateField(auto_now=True, verbose_name='Дата последнего изменения')
+    owner = models.ForeignKey(User, verbose_name='Влааделец', null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = 'пробукт'

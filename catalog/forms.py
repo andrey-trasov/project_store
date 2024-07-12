@@ -25,7 +25,8 @@ class ProductForm(StyleFormMixin, ModelForm):
                        'радар']
     class Meta:
         model = Product
-        fields = '__all__'    #выводим все поля модели
+        exclude = ('owner',)
+
 
     def clean_name(self):
         cleaned_data = self.cleaned_data.get('name')

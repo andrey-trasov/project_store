@@ -6,7 +6,7 @@ from pytils.translit import slugify
 
 class BlogCreateView(CreateView):
     model = Blog
-    fields = ('title', "slug", "text", "preview", "publication")
+    fields = ('title', "text", "preview", "publication")
     success_url = reverse_lazy('blog:blog_list')
 
     def form_valid(self, form):

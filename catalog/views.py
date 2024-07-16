@@ -72,7 +72,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         user = self.request.user    #получаем юзера
         if user == self.object.owner:    #если юзер является хозяином магазина
             return ProductForm    #возвращаем обычную форму
-        if user.has_perm('product.can_cancel_publication') and user.has_perm('product.can_change_description') and user.has_perm('product.can_cancel_category'):    #если имеет эти права
+        if user.has_perm('catalog.can_canceled_public') and user.has_perm('catalog.can_edit_category') and user.has_perm('catalog.can_edit_desk'):    #если имеет эти права
             return ProductModeratorForm    #возвращаем форму для модераторов
         raise PermissionDenied    #выдает ошибку 403
 

@@ -34,10 +34,11 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
+        ordering = ["category", "name"]
         permissions = [
-            ("can_cancel_publication", "may cancel the publication of the product"),
-            ("can_change_description ", "can change the description of any product"),
-            ("can_cancel_category", "can change the category of any product")
+            ("can_canceled_public", "может отменять публикацию продукта"),
+            ("can_edit_category ", "может менять описание любого продукта"),
+            ("can_edit_desk", "может менять категорию любого продукта")
         ]
 
     def __str__(self):

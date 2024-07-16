@@ -1,9 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
-from catalog.forms import ProductForm, VersionForm
+from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
 from catalog.models import Product, Version
 
 
@@ -66,3 +67,17 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             return super().form_valid(form)
         else:
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+    def get_form_class(self):
+        user = self.request.user    #получаем юзера
+        if user == self.object.owner:    #если юзер является хозяином магазина
+            return ProductForm    #возвращаем обычную форму
+        if user.has_perm("product.can_cancel_publication") and user.has_perm("product.can_change_description") and user.has_perm("product.can_cancel_category"):
+        # if user.has_perm('product.can_cancel_publication') and user.has_perm('product.can_change_description') and user.has_perm('product.can_cancel_category'):    #если имеет эти права
+            return ProductModeratorForm    #возвращаем форму для модераторов
+        raise PermissionDenied    #выдает ошибку 403
+
+
+
+
+

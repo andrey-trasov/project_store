@@ -29,10 +29,16 @@ class Product(models.Model):
     created_at = models.DateField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateField(auto_now=True, verbose_name='Дата последнего изменения')
     owner = models.ForeignKey(User, verbose_name='Влааделец', null=True, blank=True, on_delete=models.SET_NULL)
+    publication = models.BooleanField(verbose_name='Опубликовано', default=False)
 
     class Meta:
-        verbose_name = 'пробукт'
-        verbose_name_plural = 'пробукты'
+        verbose_name = 'продукт'
+        verbose_name_plural = 'продукты'
+        permissions = [
+            ("can_cancel_publication", "may cancel the publication of the product"),
+            ("can_change_description ", "can change the description of any product"),
+            ("can_cancel_category", "can change the category of any product")
+        ]
 
     def __str__(self):
         return self.name

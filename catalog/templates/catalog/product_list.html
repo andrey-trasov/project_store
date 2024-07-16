@@ -27,7 +27,7 @@
                     <p>Активная версия: {{ product.active_version }}</p>
 
                     <a class="btn btn-primary" href="{% url 'catalog:product_detail' product.pk %}" role="button">Просмотр</a>
-                    {% if user.is_authenticated %}
+                    {% if perms.product.can_cancel_publication and perms.product.can_change_description and perms.product.can_cancel_category or user == product.owner %}
                     <a class="btn btn-primary" href="{% url 'catalog:product_update' product.pk %}" role="button">Редактировать</a>
                     {% endif %}
                 </div>

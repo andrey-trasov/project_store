@@ -2,6 +2,7 @@ from django import template
 
 register = template.Library()
 
+
 @register.filter()
 def media_filter(path):
     if path:
@@ -11,6 +12,6 @@ def media_filter(path):
 
 @register.filter()
 def truncatechars(path):
-    if len(path) >= 100 :
+    if len(path) >= 100:
         return path[0:99]
     return path

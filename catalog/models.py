@@ -1,11 +1,12 @@
 from django.db import models, connection
 from django.db.models import IntegerField
+
 from users.models import User
 
 
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='Наименование', help_text='Введите наименование товара')
-    description = models.TextField (verbose_name='Описание')
+    description = models.TextField(verbose_name='Описание')
 
     class Meta:
         verbose_name = 'категория'
@@ -22,7 +23,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name='Наименование', help_text='Введите наименование товара')
-    description = models.TextField (verbose_name='Описание')
+    description = models.TextField(verbose_name='Описание')
     image = models.ImageField(upload_to='product/photo', verbose_name='Изображение', null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = IntegerField(verbose_name='Цена ')
@@ -44,11 +45,12 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+
 class Version(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='продукт')
     version_number = models.IntegerField(verbose_name='Номер версии')
     version_name = models.CharField(max_length=100, verbose_name='Название версии')
-    is_active = models.BooleanField(default=False,verbose_name='признак текущей версии')
+    is_active = models.BooleanField(default=False, verbose_name='признак текущей версии')
 
     class Meta:
         verbose_name = 'версия'
@@ -56,4 +58,3 @@ class Version(models.Model):
 
     def __str__(self):
         return self.version_name
-

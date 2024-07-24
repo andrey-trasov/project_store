@@ -1,9 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
-from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView
+
 from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
 from catalog.models import Product, Version
 from catalog.services import get_category_from_cache
@@ -15,7 +15,7 @@ class ProductListView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         for product in context['object_list']:
-            versions = Version.objects.filter(product = product)
+            versions = Version.objects.filter(product=product)
             active_versions = versions.filter(is_active=True)
             if active_versions:
                 product.active_version = active_versions.last().version_name
@@ -30,6 +30,7 @@ class ProductListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
 
+
 class ContactsView(TemplateView):
     template_name = "catalog/contacts.html"
 
@@ -41,7 +42,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         product = form.save()
-        user = self.request.user    #получаю авторизованного пользователя
+        user = self.request.user  # получаю авторизованного пользователя
         product.owner = user
         product.save()
         return super().form_valid(form)
@@ -54,7 +55,8 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        ProductFormset = inlineformset_factory(Product, Version, VersionForm, extra=1) # основная модель, дополнителная модель, модель из форм, количество форм
+        ProductFormset = inlineformset_factory(Product, Version, VersionForm,
+                                               extra=1)  # основная модель, дополнителная модель, модель из форм, количество форм
         if self.request.method == 'POST':
             context_data['formset'] = ProductFormset(self.request.POST, instance=self.object)
         else:
@@ -73,14 +75,10 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
     def get_form_class(self):
-        user = self.request.user    #получаем юзера
-        if user == self.object.owner:    #если юзер является хозяином магазина
-            return ProductForm    #возвращаем обычную форму
-        if user.has_perm('catalog.can_canceled_public') and user.has_perm('catalog.can_edit_category') and user.has_perm('catalog.can_edit_desk'):    #если имеет эти права
-            return ProductModeratorForm    #возвращаем форму для модераторов
-        raise PermissionDenied    #выдает ошибку 403
-
-
-
-
-
+        user = self.request.user  # получаем юзера
+        if user == self.object.owner:  # если юзер является хозяином магазина
+            return ProductForm  # возвращаем обычную форму
+        if user.has_perm('catalog.can_canceled_public') and user.has_perm(
+                'catalog.can_edit_category') and user.has_perm('catalog.can_edit_desk'):  # если имеет эти права
+            return ProductModeratorForm  # возвращаем форму для модераторов
+        raise PermissionDenied  # выдает ошибку 403

@@ -9,10 +9,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = os.getenv('DEBUG', False) == "True"   #нужно для того чтобы True было не в кавычках
+DEBUG = os.getenv('DEBUG', False) == "True"  # нужно для того чтобы True было не в кавычках
 
 ALLOWED_HOSTS = ["*"]
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -56,18 +55,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'store',
-        'USER':  'postgres',
+        'USER': 'postgres',
         'PASSWORD': '12345',
         'HOST': '127.0.0.1',
         'PORT': '5432'
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -84,8 +81,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -94,16 +89,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-
 STATIC_URL = 'static/'
-
 
 STATICFILES_DIRS = (BASE_DIR / 'static',)
 
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 MEDIA_URL = '/media/'
 
@@ -113,7 +103,6 @@ AUTH_USER_MODEL = 'users.User'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
 
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
@@ -125,7 +114,6 @@ EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', False) == "True"
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-
 CACHE_ENABLED = True
 if CACHE_ENABLED:
     CACHES = {
@@ -134,6 +122,3 @@ if CACHE_ENABLED:
             "LOCATION": os.getenv('LOCATION'),
         }
     }
-
-
-
